@@ -140,11 +140,21 @@ public:
 
 
 
+    std::string to_string(){
+        std::string s;
+        for (auto it:_numb){
+            s.push_back(char(it+'0'));
+        }
+        if (_sign)s.push_back('-');
+        std::reverse(s.begin(), s.end());
+        return s;
+    }
 
 
 
 
 
+    // copy constructors for dumb bullshit
     number(const number& numb){
         _numb=numb._numb;
         _sign=numb.sign();
@@ -155,9 +165,12 @@ public:
         _sign=sg;
         _size=numb.size();
     }
+    // absolute value
     number av(){
         return number(*this, false);
     }
+
+    // calculus operators
     friend number operator-(number num1, number num2){
         if (num1.sign()!=num2.sign()){
             // passing to +
@@ -175,7 +188,6 @@ public:
             swaped=true;
             std::swap(num1, num2);
         }
-        //std::cout<<num1<<" "<<num2<<std::endl;
         number num3;
         num3.clear();
         size_t i, minSize=std::min(num1.size(), num2.size());
