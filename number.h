@@ -11,6 +11,23 @@ private:
     int _size;
     bool _sign;
     std::vector<short> _numb;
+    
+    int operator[](int i){
+        return _numb[i];
+    }
+    int size(){
+        return _size;
+    }
+    void push_back(int value){
+        _numb.push_back(value);
+        ++_size;
+    }
+    void clear()
+    {
+        _numb.clear();
+        _sign=false;
+        _size=0;
+    }
 public:
     number(){
         _numb={0};
@@ -36,8 +53,7 @@ public:
             _size=1;
         }
     }
-    number(int numb)
-    {
+    number(int numb){
         _sign=bool(numb<0);
         numb=abs(numb);
         do{
@@ -46,14 +62,56 @@ public:
         } while (numb);
         _size=_numb.size();
     }
-    int size(){
-        return _size;
+
+
+    // < and > overload, will do afther testing if + works
+    friend bool operator<(number num1, number nbum2)
+    {
+        return false;
     }
+    friend bool operator<(number num1, int num2){
+        return num1<number(num2);
+    }
+    friend bool operator>(number num1, number nbum2)
+    {
+        return false;
+    }
+    friend bool operator>(number num1, int num2){
+        return num1>number(num2);
+    }
+
+
+
     friend number operator+(number num1, number num2){
         number num3;
-        int minSize=std::min(num1.size(), num2.size());
-        // to do:
-        // add num1 and num2 in num3 like you add 2 vectors 
+        num3.clear();
+        if (bool(num1<0)!=bool(num2<0)){
+            // need the - operator for this shit
+            return num3;
+        }
+        size_t minSize=std::min(num1.size(), num2.size()), i;
+        int keep=0;
+        for (i=0; i<minSize; ++i){
+            keep+=num1[i]+num2[i];
+            num3.push_back(keep%10);
+            keep/=10;
+        }
+        while (i<num1.size()){
+            keep+=num1[i];
+            num3.push_back(keep%10);
+            keep/=10;
+            ++i;
+        }
+        while (i<num2.size()){
+            keep+=num2[i];
+            num3.push_back(keep%10);
+            keep/=10;
+            ++i;
+        }
+        while (keep){
+            num3.push_back(keep%10);
+            keep/=10;
+        }
         return num3;
     }
     friend std::ostream& operator<<(std::ostream& out, const number& numb){
