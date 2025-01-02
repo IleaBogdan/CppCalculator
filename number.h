@@ -12,22 +12,29 @@ private:
     bool _sign;
     std::vector<short> _numb;
     
-    int operator[](int i){
-        return _numb[i];
+    void setValue(size_t i, int value){
+        _numb[i]=value;
     }
-    bool sign()
-    {
-        return _sign;
-    }
-    int size(){
-        return _size;
-    }
+    inline int operator[](size_t i)const{return _numb[i];}
+    bool sign()const{return _sign;}
+    int size()const{return _size;}
     void push_back(int value){
         _numb.push_back(value);
         ++_size;
     }
-    void clear()
-    {
+    void pop_back(){
+        _numb.pop_back();
+        _size=_numb.size();
+        if (!_size){
+            _sign=false;
+            ++_size;
+            _numb={0};
+        }
+    }
+    inline int back()const{
+        return _numb.back();
+    }
+    void clear(){
         _numb.clear();
         _sign=false;
         _size=0;
@@ -153,8 +160,28 @@ public:
                 return num1+num2;
             }
         }
-        number num3(-100);
-
+        number num3;
+        num3.clear();
+        size_t i, minSize=std::min(num1.size(), num2.size());
+        for (i=0; i<minSize; ++i){
+            if (num1[i]<num2[i]){
+                num1.setValue(i, num1[i]+10);
+                size_t j=i+1;
+                while (num1[j]==0 && j<num1.size()){
+                    num1.setValue(j, 9);
+                    ++j;
+                }
+                if (j<num1.size())num1.setValue(j, num1[j]-1);
+            }
+            num3.push_back(num1[i]-num2[i]);
+        }
+        while (i<num1.size()){
+            num3.push_back(num1[i++]);
+        }
+        num3._sign=num1.sign();
+        while (num3.back()==0 && num3.size()>1){
+            num3.pop_back();
+        }
         return num3;
     }
     friend number operator+(number num1, number num2){
