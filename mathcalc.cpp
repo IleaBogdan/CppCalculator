@@ -1,4 +1,9 @@
+#pragma once
 #include "mathcalc.h"
+#include "number.h"
+
+#define elif else if
+
 /*
 operator order:
 
@@ -19,7 +24,7 @@ while (stack2!=empty)
 */
 
 // op == operator, od == order
-std::unordered_map<const char, const int8_t> opod{
+std::unordered_map<char, int> opod{
     {'(', 0},
     {')', 0},
     {'*', 1},
@@ -30,23 +35,48 @@ std::unordered_map<const char, const int8_t> opod{
 };
 
 
-std::string solve(std::string operand){
-    std::string solution="", tempNumb="";
+void clearOper(std::stack<number> &nums, std::stack<char> &oper){
+    while (!oper.empty()){
+        char op=oper.top();
+        oper.pop();
+        number num1, num2;
+        num2=nums.top(), nums.pop();
+        num1=nums.top(), nums.pop();
+        switch (op){
+        case '+':
+            nums.push(num1+num2);
+            break;
+        case '-':
+            nums.push(num1-num2);
+            break;
+        default:
+            std::cout<<"TO DO"<<std::endl;
+            break;
+        }
+    }
+}
+std::string solve(std::string operation){
+    std::string tempNumb="";
     
+    //std::cout<<operation<<std::endl;
     std::stack<number> nums;
     std::stack<char> oper;
-    for (auto chr:operand){
+    for (auto chr:operation){
         if (isdigit(chr)){
             tempNumb.push_back(chr);
         } else {
             nums.push(number(tempNumb));
             tempNumb.clear();
-            if (opod[oper.top()]>=opod[chr]){
+            if (oper.empty()){
+                oper.push(chr);
+            } elif (opod[oper.top()]>=opod[chr]){
                 oper.push(chr);
             } else {
-                // code to calculate the stuff in nums and oper
+                clearOper(nums, oper);
             }
         }
     }
-    return solution;
+    nums.push(tempNumb);
+    clearOper(nums, oper);
+    return nums.top().to_string();
 }
