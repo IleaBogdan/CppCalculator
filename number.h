@@ -64,17 +64,35 @@ public:
     }
 
 
-    // < and > overload, will do afther testing if + works
-    friend bool operator<(number num1, number nbum2)
+    // <, >, <= and >= overload, will do afther testing if + works
+    friend bool operator<(number num1, number num2)
+    {
+        if (num1._sign && !num2._sign)return true;
+        if (!num1._sign && num2._sign)return false;
+        bool sign=num1._sign;
+        if (num1.size()!=num2.size()) return (sign ? num1.size()>num2.size() : num1.size()<num2.size());
+        for (size_t i=num1.size(); i>=0; --i){
+            if (num1[i]!=num2[i]) return (sign ? num1[i]>num2[i] : num1[i]<num2[i]);
+        }
+        return false;
+    }
+    friend bool operator<=(number num1, number num2)
+    {
+        if (num1._sign && !num2._sign)return true;
+        if (!num1._sign && num2._sign)return false;
+        bool sign=num1._sign;
+        if (num1.size()!=num2.size()) return (sign ? num1.size()>num2.size() : num1.size()<num2.size());
+        for (size_t i=num1.size(); i>=0; --i){
+            if (num1[i]!=num2[i]) return (sign ? num1[i]>num2[i] : num1[i]<num2[i]);
+        }
+        return true;
+    }
+    friend bool operator>(number num1, number num2)
     {
         return false;
     }
     friend bool operator<(number num1, int num2){
         return num1<number(num2);
-    }
-    friend bool operator>(number num1, number nbum2)
-    {
-        return false;
     }
     friend bool operator>(number num1, int num2){
         return num1>number(num2);
