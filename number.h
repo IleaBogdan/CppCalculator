@@ -15,6 +15,10 @@ private:
     int operator[](int i){
         return _numb[i];
     }
+    bool sign()
+    {
+        return _sign;
+    }
     int size(){
         return _size;
     }
@@ -125,13 +129,48 @@ public:
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    friend number operator-(number num1, number num2){
+        if (num1.sign()!=num2.sign()){
+            // passing to +
+            if (num1.sign()){
+                num1._sign=!num1._sign;
+                return num1+num2;
+            }
+            else {
+                num2._sign=!num2._sign;
+                return num1+num2;
+            }
+        }
+        number num3(-100);
+
+        return num3;
+    }
     friend number operator+(number num1, number num2){
+        if (num1.sign()!=num2.sign()){
+            // passing to -
+            if (num1.sign()){
+                num1._sign=!num1._sign;
+                return num1-num2;
+            }
+            else {
+                num2._sign=!num2._sign;
+                return num1-num2;
+            }
+        }
         number num3;
         num3.clear();
-        if (bool(num1<0)!=bool(num2<0)){
-            // need the - operator for this shit
-            return num3;
-        }
         size_t minSize=std::min(num1.size(), num2.size()), i;
         int keep=0;
         for (i=0; i<minSize; ++i){
@@ -155,6 +194,7 @@ public:
             num3.push_back(keep%10);
             keep/=10;
         }
+        num3._sign=num1.sign();
         return num3;
     }
     friend std::ostream& operator<<(std::ostream& out, const number& numb){
