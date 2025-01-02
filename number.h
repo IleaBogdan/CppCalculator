@@ -74,7 +74,6 @@ public:
         _size=_numb.size();
     }
 
-
     // <, >, <= and >= overload, will do afther testing if + works
     friend bool operator<(number num1, number num2)
     {
@@ -146,8 +145,19 @@ public:
 
 
 
-
-
+    number(const number& numb){
+        _numb=numb._numb;
+        _sign=numb.sign();
+        _size=numb.size();
+    }
+    number(const number& numb, bool sg){
+        _numb=numb._numb;
+        _sign=sg;
+        _size=numb.size();
+    }
+    number av(){
+        return number(*this, false);
+    }
     friend number operator-(number num1, number num2){
         if (num1.sign()!=num2.sign()){
             // passing to +
@@ -160,6 +170,12 @@ public:
                 return num1+num2;
             }
         }
+        bool swaped=false;
+        if (num1.av()<num2.av()){
+            swaped=true;
+            std::swap(num1, num2);
+        }
+        //std::cout<<num1<<" "<<num2<<std::endl;
         number num3;
         num3.clear();
         size_t i, minSize=std::min(num1.size(), num2.size());
@@ -178,7 +194,7 @@ public:
         while (i<num1.size()){
             num3.push_back(num1[i++]);
         }
-        num3._sign=num1.sign();
+        num3._sign=(swaped ? !num1.sign() : num1.sign());
         while (num3.back()==0 && num3.size()>1){
             num3.pop_back();
         }
