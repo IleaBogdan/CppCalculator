@@ -252,6 +252,46 @@ public:
         num3._sign=num1.sign();
         return num3;
     }
+
+
+    number(std::vector<short> vec){
+        for (auto it:vec){
+            _numb.push_back(it); 
+        }
+        std::reverse(_numb.begin(), _numb.end());
+        _size=_numb.size();
+        _sign=false;
+    }
+    friend bool operator==(number num1, number num2){
+        if (num1.size()!=num2.size())return false;
+        for (size_t i=0; i<num1.size(); ++i){
+            if (num1[i]!=num2[i])return false;
+        }
+        return true;
+    }
+    friend number operator*(number num1, number num2){
+        number num3;
+        if (num1==number(0) || num2==number(0))return num3;
+        std::string zero="";
+        for (auto it_num2:num2._numb){
+            number numt;
+            numt.clear();
+            int keep=0;
+            for (auto it_num1:num1._numb){
+                keep+=(it_num1*it_num2);
+                numt.push_back(keep%10);
+                keep/=10;
+            }
+            while (keep){
+                numt.push_back(keep%10);
+                keep/=10;
+            }
+            num3=num3+number(numt.to_string()+zero);
+            zero+="0";
+        }
+        num3._sign=(num1.sign()!=num2.sign());
+        return num3;
+    }
     friend std::ostream& operator<<(std::ostream& out, const number& numb){
         if (numb._sign)out<<'-';
         for (int i=numb._numb.size()-1; i>=0; --i){

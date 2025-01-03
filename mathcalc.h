@@ -4,6 +4,7 @@
 #include <string>
 #include <stack>
 #include <unordered_map>
+#include <iostream>
 
 // files
 #include "mathcalc.cpp"

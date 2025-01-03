@@ -3,8 +3,12 @@
 
 #include "mathcalc.h"
 
+std::string input_reader(){
+    std::string s;
+    std::getline(std::cin, s);
+    return s;
+}
 int main(){
-    std::string s="10+20-18";
-    std::cout<<solve(s);
+    std::cout<<solve(input_reader());
     return 0;
 }

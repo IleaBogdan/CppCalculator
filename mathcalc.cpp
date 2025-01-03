@@ -49,6 +49,9 @@ void clearOper(std::stack<number> &nums, std::stack<char> &oper){
         case '-':
             nums.push(num1-num2);
             break;
+        case '*':
+            nums.push(num1*num2);
+            break;
         default:
             std::cout<<"TO DO"<<std::endl;
             break;
@@ -73,6 +76,7 @@ std::string solve(std::string operation){
                 oper.push(chr);
             } else {
                 clearOper(nums, oper);
+                oper.push(chr);
             }
         }
     }
