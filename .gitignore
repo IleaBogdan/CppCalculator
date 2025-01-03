@@ -1,3 +1,12 @@
 calc.exe
 calc
 .vscode
+CppProperties.json
+.vs
+test
+CppCalculator
+CppCalculator.sln
+x64
+CppCalculator.vcxproj
+CppCalculator.vcxproj.user
+CppCalculator.vcxproj.filters

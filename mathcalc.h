@@ -7,6 +7,7 @@
 #include <iostream>
 
 // files
-#include "mathcalc.cpp"
+#include "number.h"
 
+void clearOper(std::stack<number>& nums, std::stack<char>& oper);
 std::string solve(std::string);
