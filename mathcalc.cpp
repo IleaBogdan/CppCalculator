@@ -1,4 +1,3 @@
-#pragma once
 #include "mathcalc.h"
 #include "number.h"
 
