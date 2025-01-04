@@ -10,3 +10,4 @@ x64
 CppCalculator.vcxproj
 CppCalculator.vcxproj.user
 CppCalculator.vcxproj.filters
+copy-vscode
