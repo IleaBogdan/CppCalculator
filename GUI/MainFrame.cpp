@@ -9,7 +9,7 @@ MainFrame::MainFrame(const wxString& title):
 	wxPanel* panel = new wxPanel(this);
 	panel->SetBackgroundColour(
 		// wxColor gets rgb params
-		wxColor(40, 64, 59)
+		wxColor(69, 69, 69)
 	);
 	// init numpad
 	// maybe will make it another function
