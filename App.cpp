@@ -9,7 +9,7 @@ bool App::OnInit() {
 	// instance of the window
 	MainFrame* mf = new MainFrame("Calculator");
 	// set size and center
-	mf->SetClientSize(800, 600);
+	mf->SetClientSize(300, 400);
 	mf->Center();
 	mf->Show();
 	// if returned false will close

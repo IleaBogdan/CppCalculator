@@ -1,16 +1,33 @@
 #include "MainFrame.h"
+#include <vector>
 
 MainFrame::MainFrame(const wxString& title): 
 	wxFrame(nullptr, wxID_ANY, title){
 	
 	// controls:
 
-	// we need to add all controls in a panel
-	// if not we will have all of them spreading on the screen randomly
 	wxPanel* panel = new wxPanel(this);
-	wxButton* button = new wxButton(panel, wxID_ANY, "Button", wxPoint(150, 50), wxSize(100, 35));
-	wxCheckBox* chbox = new wxCheckBox(panel, wxID_ANY, "CheckBox", wxPoint(550, 50));
-	wxStaticText* stText = new wxStaticText(panel, wxID_ANY, "Static Text", wxPoint(120, 150)); // not changeble by the user
-	wxTextCtrl* txtCtr = new wxTextCtrl(panel, wxID_ANY, "Text Control", wxPoint(500, 145)); // can be changed by user
-	wxSlider* slider = new wxSlider(panel, wxID_ANY, 25, 0, 100, wxPoint(100, 250), wxSize(200, -1));
+	panel->SetBackgroundColour(
+		// wxColor gets rgb params
+		wxColor(40, 64, 59)
+	);
+	// init numpad
+	// maybe will make it another function
+	std::pair<int, int> cpl{30, 260}; // core point location
+	std::vector<wxPoint> numpad_points = { 
+		{cpl.first+25, cpl.second+75}, // 0 
+		{cpl.first, cpl.second}, // 1
+		{cpl.first+75, cpl.second}, // 2
+		{cpl.first+2*75, cpl.second}, // 3
+		{cpl.first, cpl.second+25}, // 4
+		{cpl.first+75, cpl.second+25}, // 5
+		{cpl.first+2*75, cpl.second+25}, // 6
+		{cpl.first, cpl.second+2*25}, // 7
+		{cpl.first+75, cpl.second+2*25}, // 8
+		{cpl.first+2*75, cpl.second+2*25}  // 9
+	};
+	std::vector<wxButton*> numpad;
+	for (int i:{1,4,7,2,5,8,0,3,6,9}) {
+		numpad.push_back(new wxButton(panel, wxID_ANY, wxString::Format(wxT("%i"), i), numpad_points[i]));
+	}
 }
