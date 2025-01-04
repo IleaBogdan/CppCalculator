@@ -1,12 +1,13 @@
 #include <iostream>
+#include <string>
 #include "mathcalc.h"
 
-std::string input_reader() {
+std::string input_reader(void) {
     std::string s;
     std::getline(std::cin, s);
     return s;
 }
-void backend(){
+void mainback(void){
     try {
         std::cout << solve(input_reader());
     }
