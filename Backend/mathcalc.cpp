@@ -53,12 +53,10 @@ std::string solve(std::string operation) {
     while (i<newop.size()){
         if (newop[i]=='*' || newop[i]=='/'){
             char keepsign=newop[i];
-            size_t backi=i-1;
             std::string temp;
-            while (backi>=0 && isdigit(newnewop[backi])){
+            while (!newnewop.empty() && isdigit(newnewop.back())){
                 temp.push_back(newnewop.back());
                 newnewop.pop_back();
-                --backi;
             }
             std::reverse(temp.begin(), temp.end());
             number num1(temp);
@@ -87,15 +85,8 @@ std::string solve(std::string operation) {
     while (i<newnewop.size()){
         if (newnewop[i]=='+' || newnewop[i]=='-'){
             char keepsign=newop[i];
-            size_t backi=i-1;
             std::string temp;
-            while (backi>=0 && isdigit(rez[backi])){
-                temp.push_back(rez.back());
-                rez.pop_back();
-                --backi;
-            }
-            std::reverse(temp.begin(), temp.end());
-            number num1(temp);
+            number num1(rez);
             temp.clear();
             ++i;
             while (i<newnewop.size() && isdigit(newnewop[i])){
@@ -105,14 +96,13 @@ std::string solve(std::string operation) {
             if (i!=newnewop.size())--i;
             if (keepsign=='+'){
                 std::string hs=(num1+number(temp)).to_string();
-                rez+=hs;
+                rez=hs;
             } else {
                 std::string hs=(num1-number(temp)).to_string();
-                rez+=hs;
+                rez=hs;
             }
         } else {
             rez.push_back(newnewop[i]);
-            std::cout<<rez<<std::endl;
         }
         ++i;
     }
