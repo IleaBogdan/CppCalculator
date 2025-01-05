@@ -21,11 +21,16 @@ MainFrame::MainFrame(const wxString& title):
 }
 
 void MainFrame::OnButtonClick(wxCommandEvent& e) {
-	int localid = e.GetId();
-	char localid_value = char(localid);
-	wxLogStatus(wxString{localid_value});
-	if (localid_value == '=') {
+	char localid = char(e.GetId());
+	wxLogStatus(wxString{localid});
+	switch (localid) {
+	case '=':
 		std::cout << "TO DO: call the backend here\n";
+		break;
+	default:
+		// I need a string that can take all the 
+		// numbers and signs and the send them to the backend
+		break;
 	}
 	
 }
