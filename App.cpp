@@ -6,6 +6,8 @@ wxIMPLEMENT_APP(App);
 
 
 bool App::OnInit() {
+	// write with cout in file because yes
+	if (freopen("debuglog.txt", "w", stdout)) {}
 	// instance of the window
 	MainFrame* mf = new MainFrame("Calculator");
 	// set size and center

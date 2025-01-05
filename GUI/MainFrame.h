@@ -8,7 +8,7 @@ protected:
 
 private:
 	void OnButtonClick(wxCommandEvent& e);
-	wxDECLARE_EVENT_TABLE();
+	//wxDECLARE_EVENT_TABLE(); // - no need for this now
 public:
 	MainFrame(const wxString& title);
 };
