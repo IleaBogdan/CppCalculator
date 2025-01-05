@@ -20,71 +20,65 @@ pop 2 elems from stack1
 pop 1 elem from stack2
 push 1 elem in stack1
 while (stack2!=empty)
+
+nvm it does not work as expected
 */
-
-// op == operator, od == order
-std::unordered_map<char, int> opod{
-    {'(', 0},
-    {')', 0},
-    {'*', 1},
-    {'/', 1},
-    // idk inca pt modulo ce sa fac da om vedea
-    {'+', 2},
-    {'-', 2}
-};
-
-
-void clearOper(std::stack<number>& nums, std::stack<char>& oper) {
-    while (!oper.empty()) {
-        char op = oper.top();
-        oper.pop();
-        number num1, num2;
-        num2 = nums.top(), nums.pop();
-        num1 = nums.top(), nums.pop();
-        switch (op) {
-        case '+':
-            nums.push(num1 + num2);
-            break;
-        case '-':
-            nums.push(num1 - num2);
-            break;
-        case '*':
-            nums.push(num1 * num2);
-            break;
-        case '/':
-            nums.push(num1 / num2);
-            break;
-        default:
-            std::cout << "TO DO" << std::endl;
-            break;
-        }
-    }
-}
 std::string solve(std::string operation) {
-    std::string tempNumb = "";
-
-    //std::cout<<operation<<std::endl;
-    std::stack<number> nums;
-    std::stack<char> oper;
-    for (auto chr : operation) {
-        if (isdigit(chr)) {
-            tempNumb.push_back(chr);
-        }
-        else {
-            nums.push(number(tempNumb));
-            tempNumb.clear();
-            if (oper.empty()) {
-                oper.push(chr);
-            } elif(opod[oper.top()] >= opod[chr]) {
-                oper.push(chr);
+    size_t i=0;
+    std::string newop;
+    while (i<operation.size()){
+        if (operation[i]=='('){
+            int cnt=1;
+            ++i;
+            std::string newsolve="";
+            for (; i<operation.size() && cnt; ++i){
+                cnt+=bool(operation[i]=='(')-bool(operation[i]==')');
+                newsolve.push_back(operation[i]);
             }
-            else {
-                clearOper(nums, oper);
-                oper.push(chr);
-            }
-        }
+            if (newsolve.back()==')')newsolve.pop_back();
+            newop+=solve(newsolve);
+        } else newop.push_back(operation[i]);
+        ++i;
     }
-    nums.push(tempNumb);
-    clearOper(nums, oper);
-    return nums.top().to_string();
+    // no more * and /
+    i=0;
+    std::string newnewop;
+    while (i<newop.size()){
+        if (newop[i]=='*' || newop[i]=='/'){
+            char keepsign=newop[i];
+            size_t backi=i-1;
+            std::string temp;
+            while (backi>=0 && isdigit(newnewop[backi])){
+                temp.push_back(newnewop.back());
+                newnewop.pop_back();
+                --backi;
+            }
+            std::reverse(temp.begin(), temp.end());
+            number num1(temp);
+            temp.clear();
+            ++i;
+            while (i<newop.size() && isdigit(newop[i])){
+                temp.push_back(newop[i]);
+                ++i;
+            }
+            if (keepsign=='*'){
+                std::string hs=(num1*number(temp)).to_string();
+                newnewop+=hs;
+            } else {
+                std::string hs=(num1/number(temp)).to_string();
+                newnewop+=hs;
+            }
+        } else {
+            newnewop.push_back(newop[i]);
+        }
+        ++i;
+    }
+    // no more + and -
+    i=0;
+    std::string rez;
+    while (i<newnewop.size()){
+
+        ++i;
+    }
+    return rez;
 }

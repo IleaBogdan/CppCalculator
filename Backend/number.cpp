@@ -296,7 +296,7 @@ number operator/(number num1, number num2) {
         ++num3;
         num1 = num1 - num2;
     }
-    //if (num1==num2)++num3;
+    if (num1==num2)++num3;
     return num3;
 }
 std::ostream& operator<<(std::ostream& out, const number& numb) {

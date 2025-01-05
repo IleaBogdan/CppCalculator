@@ -7,7 +7,7 @@ std::string input_reader(void) {
     std::getline(std::cin, s);
     return s;
 }
-void mainback(void){
+int main(void){
     try {
         std::cout << solve(input_reader());
     }
