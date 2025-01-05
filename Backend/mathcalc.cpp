@@ -77,7 +77,33 @@ std::string solve(std::string operation) {
     i=0;
     std::string rez;
     while (i<newnewop.size()){
-
+        if (newnewop[i]=='+' || newnewop[i]=='-'){
+            char keepsign=newop[i];
+            size_t backi=i-1;
+            std::string temp;
+            while (backi>=0 && isdigit(rez[backi])){
+                temp.push_back(rez.back());
+                rez.pop_back();
+                --backi;
+            }
+            std::reverse(temp.begin(), temp.end());
+            number num1(temp);
+            temp.clear();
+            ++i;
+            while (i<newnewop.size() && isdigit(newnewop[i])){
+                temp.push_back(newnewop[i]);
+                ++i;
+            }
+            if (keepsign=='+'){
+                std::string hs=(num1+number(temp)).to_string();
+                rez+=hs;
+            } else {
+                std::string hs=(num1-number(temp)).to_string();
+                rez+=hs;
+            }
+        } else {
+            rez.push_back(newnewop[i]);
+        }
         ++i;
     }
     return rez;
