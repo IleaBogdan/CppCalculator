@@ -9,7 +9,7 @@ std::string input_reader(void) {
 }
 int main(void){
     try {
-        std::cout << solve(input_reader());
+        std::cout << "fullrez: "+ solve(input_reader());
     }
     catch (char const* error) {
         std::cout << error;

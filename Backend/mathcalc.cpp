@@ -23,8 +23,10 @@ while (stack2!=empty)
 
 nvm it does not work as expected
 */
+int orderNum=0;
 std::string solve(std::string operation) {
     size_t i=0;
+    ++orderNum;
     std::string newop;
     while (i<operation.size()){
         if (operation[i]=='('){
@@ -35,8 +37,13 @@ std::string solve(std::string operation) {
                 cnt+=bool(operation[i]=='(')-bool(operation[i]==')');
                 newsolve.push_back(operation[i]);
             }
-            if (newsolve.back()==')')newsolve.pop_back();
+            if (newsolve.back()==')'){
+                newsolve.pop_back();
+                --i;
+            }
+            //std::cout<<orderNum<<": - "<<newsolve<<std::endl;
             newop+=solve(newsolve);
+            //std::cout<<newop<<std::endl;
         } else newop.push_back(operation[i]);
         ++i;
     }
@@ -61,6 +68,7 @@ std::string solve(std::string operation) {
                 temp.push_back(newop[i]);
                 ++i;
             }
+            if (i!=newop.size())--i;
             if (keepsign=='*'){
                 std::string hs=(num1*number(temp)).to_string();
                 newnewop+=hs;
@@ -94,6 +102,7 @@ std::string solve(std::string operation) {
                 temp.push_back(newnewop[i]);
                 ++i;
             }
+            if (i!=newnewop.size())--i;
             if (keepsign=='+'){
                 std::string hs=(num1+number(temp)).to_string();
                 rez+=hs;
@@ -103,6 +112,7 @@ std::string solve(std::string operation) {
             }
         } else {
             rez.push_back(newnewop[i]);
+            std::cout<<rez<<std::endl;
         }
         ++i;
     }
