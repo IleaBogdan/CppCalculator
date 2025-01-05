@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
+#include "GUI.h"
 
 // init numpad
 std::vector<wxButton*> init_numpad(wxWindow* parrent) {
@@ -21,8 +22,10 @@ std::vector<wxButton*> init_numpad(wxWindow* parrent) {
 	};
 	
 	std::vector<wxButton*> numpad;
-	for (char i : std::string("1472580369")) {
-		numpad.push_back(new wxButton(parrent, wxID_ANY, 
+	for (char i : std::string("1234567890")) {
+		numpad.push_back(new wxButton(parrent,
+			// setting each button a costum ID
+			static_cast<Numpad_IDs>(i-'0'+2),
 			wxString(std::string{ i }), numpad_points[i]));
 	}
 	return numpad;
