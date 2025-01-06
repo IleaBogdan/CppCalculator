@@ -11,7 +11,8 @@ wxString backendCalcuation(const wxString& s) {
 MainFrame::MainFrame(const wxString& title): 
 	wxFrame(nullptr, wxID_ANY, title){
 	
-	CreateStatusBar();
+	wxStatusBar* statusBar=CreateStatusBar();
+	statusBar->SetDoubleBuffered(true);
 
 	wxPanel* panel = new wxPanel(this);
 	panel->SetBackgroundColour(
@@ -28,10 +29,10 @@ MainFrame::MainFrame(const wxString& title):
 }
 
 void MainFrame::OnTextChange(wxCommandEvent& e){
-	wxLogStatus(e.GetString());
-	if (e.GetString() != "") {
-		if (e.GetString().Last() == '=') {
-			std::cout << backendCalcuation(e.GetString());
+	wxLogStatus(calcText->GetLabelText());
+	if (calcText->GetLabelText() != "") {
+		if (calcText->GetLabelText().Last() == '=') {
+			std::cout << backendCalcuation(calcText->GetLabelText());
 		}
 	}
 }
@@ -40,7 +41,7 @@ void MainFrame::OnButtonClick(wxCommandEvent& e) {
 	wxLogStatus(wxString{localid});
 	switch (localid) {
 	case '=':
-		std::cout << backendCalcuation(e.GetString());
+		std::cout << backendCalcuation(calcText->GetLabelText());
 		break;
 	default:
 		if (default_text.count(calcText->GetLabelText())) {
