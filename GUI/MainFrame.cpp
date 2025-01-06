@@ -32,6 +32,7 @@ void MainFrame::OnTextChange(wxCommandEvent& e){
 	wxLogStatus(calcText->GetLabelText());
 	if (calcText->GetLabelText() != "") {
 		if (calcText->GetLabelText().Last() == '=') {
+			std::cout << calcText->GetLabelText() << std::endl;
 			std::cout << backendCalcuation(calcText->GetLabelText());
 		}
 	}
@@ -41,6 +42,7 @@ void MainFrame::OnButtonClick(wxCommandEvent& e) {
 	wxLogStatus(wxString{localid});
 	switch (localid) {
 	case '=':
+		std::cout << calcText->GetLabelText() << std::endl;
 		std::cout << backendCalcuation(calcText->GetLabelText());
 		break;
 	default:

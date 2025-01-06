@@ -15,9 +15,9 @@ std::string calculate(const std::string& s) {
     catch (char const* error) {
         rezult=std::string(error);
     }
-    return s;
+    return rezult;
 }
 int main(void) {
-    calculate(input_reader());
+    std::cout<<calculate(input_reader());
     return 0;
 }
