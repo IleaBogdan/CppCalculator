@@ -3,6 +3,11 @@
 #include <string>
 #include <iostream>
 
+
+wxString backendCalcuation(const wxString& s) {
+	return wxString(calculate(std::string(s)));
+}
+
 MainFrame::MainFrame(const wxString& title): 
 	wxFrame(nullptr, wxID_ANY, title){
 	
@@ -26,7 +31,7 @@ void MainFrame::OnTextChange(wxCommandEvent& e){
 	wxLogStatus(e.GetString());
 	if (e.GetString() != "") {
 		if (e.GetString().Last() == '=') {
-			std::cout << "TO DO: call the backend here\n";
+			std::cout << backendCalcuation(e.GetString());
 		}
 	}
 }
@@ -35,7 +40,7 @@ void MainFrame::OnButtonClick(wxCommandEvent& e) {
 	wxLogStatus(wxString{localid});
 	switch (localid) {
 	case '=':
-		std::cout << "TO DO: call the backend here\n";
+		std::cout << backendCalcuation(e.GetString());
 		break;
 	default:
 		if (default_text.count(calcText->GetLabelText())) {

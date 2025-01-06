@@ -7,12 +7,17 @@ std::string input_reader(void) {
     std::getline(std::cin, s);
     return s;
 }
-int mainback(void){
+std::string calculate(const std::string& s) {
+    std::string rezult;
     try {
-        std::cout << "fullrez: "+ solve(input_reader());
+        rezult = solve(s);
     }
     catch (char const* error) {
-        std::cout << error;
+        rezult=std::string(error);
     }
-    return false;
+    return s;
+}
+int main(void) {
+    calculate(input_reader());
+    return 0;
 }

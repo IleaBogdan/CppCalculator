@@ -1,3 +1,5 @@
 #pragma once
+#include <string>
+
 // imi trebe fisieru asta
-void mainback(void);
+std::string calculate(const std::string& s);
