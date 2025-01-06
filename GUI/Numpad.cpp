@@ -7,7 +7,7 @@
 
 // init numpad
 std::vector<wxButton*> init_numpad(wxWindow* parrent) {
-	std::pair<int, int> cpl{ 30, 260 }; // core point location
+	std::pair<int, int> cpl{ 15, 160 }; // core point location
 	std::unordered_map<char, wxPoint> numpad_points{
 		{'0', {cpl.first + 25, cpl.second + 75}},
 		{'1', {cpl.first, cpl.second} },

@@ -8,7 +8,8 @@ protected:
 
 private:
 	void OnButtonClick(wxCommandEvent& e);
-	//wxDECLARE_EVENT_TABLE(); // - no need for this now
+	void OnTextChange(wxCommandEvent& e);
+	wxTextCtrl* calcText;
 public:
 	MainFrame(const wxString& title);
 };

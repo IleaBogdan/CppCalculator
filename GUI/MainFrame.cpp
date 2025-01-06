@@ -13,13 +13,22 @@ MainFrame::MainFrame(const wxString& title):
 		// wxColor gets rgb params
 		wxColor(69, 69, 69)
 	);
-	std::vector<wxButton*> numpad=init_numpad(panel);
-	for (auto& numpadelem : numpad) {
-		//std::cout << numpadelem->GetId() << std::endl;
-		numpadelem->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClick, this);
-	}
+	wxPanel* numpad_panel = new wxPanel(panel, wxID_ANY, wxPoint(3, 100), wxSize(250, 350));
+	//numpad_panel->SetBackgroundColour(wxColor(0, 0, 0));
+	numpad_panel->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClick, this);
+	std::vector<wxButton*> numpad=init_numpad(numpad_panel);
+	calcText = new wxTextCtrl(panel, wxID_ANY, "Type a calculation: 2 + 2", wxPoint(18, 50), wxSize(160, -1));
+	
+	// if you uncomment this shit it will all break
+	//calcText->Bind(wxEVT_TEXT, &MainFrame::OnTextChange, this);
 }
 
+void MainFrame::OnTextChange(wxCommandEvent& e){
+	wxLogStatus(e.GetString());
+	if (e.GetString().Last() == '=') {
+		std::cout << "TO DO: call the backend here\n";
+	}
+}
 void MainFrame::OnButtonClick(wxCommandEvent& e) {
 	char localid = char(e.GetId());
 	wxLogStatus(wxString{localid});
@@ -28,9 +37,13 @@ void MainFrame::OnButtonClick(wxCommandEvent& e) {
 		std::cout << "TO DO: call the backend here\n";
 		break;
 	default:
+		if (default_text.count(calcText->GetLabelText())) {
+			calcText->SetLabelText("");
+		}
+		calcText->SetLabelText(calcText->GetLabelText() + "" + localid);
 		// I need a string that can take all the 
 		// numbers and signs and the send them to the backend
 		break;
 	}
-	
+	e.Skip();
 }
