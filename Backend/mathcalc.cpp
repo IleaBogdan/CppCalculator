@@ -48,6 +48,7 @@ std::string solve(std::string operation) {
                 --i;
             }
             //std::cout<<orderNum<<": - "<<newsolve<<std::endl;
+            if (newop.back()=='+')newop.pop_back();
             newop+=solve(newsolve);
             //std::cout<<newop<<std::endl;
         } else newop.push_back(operation[i]);
@@ -68,7 +69,7 @@ std::string solve(std::string operation) {
             number num1(temp);
             temp.clear();
             ++i;
-            while (i<newop.size() && isdigit(newop[i])){
+            while (i<newop.size() && (isdigit(newop[i]) || newop[i]=='-')){
                 temp.push_back(newop[i]);
                 ++i;
             }
