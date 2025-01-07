@@ -23,7 +23,7 @@ MainFrame::MainFrame(const wxString& title):
 	//numpad_panel->SetBackgroundColour(wxColor(0, 0, 0));
 	numpad_panel->Bind(wxEVT_BUTTON, &MainFrame::OnNUmpadButtonClick, this);
 	std::vector<wxButton*> numpad=init_numpad(numpad_panel);
-	calcText = new wxTextCtrl(panel, wxID_ANY, "Type a calculation: 2 + 2", wxPoint(18, 50), wxSize(160, -1));
+	calcText = new wxTextCtrl(panel, wxID_ANY, default_text_box, wxPoint(18, 50), wxSize(160, -1));
 	
 	// somithing is fucked when I bind this and stopes the numpad buttons
 	//calcText->Bind(wxEVT_TEXT, &MainFrame::OnTextChange, this);

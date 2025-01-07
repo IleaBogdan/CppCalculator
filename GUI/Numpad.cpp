@@ -22,11 +22,13 @@ std::vector<wxButton*> init_numpad(wxWindow* parrent) {
 		{'=', {cpl.first+25*4, cpl.second+75}},
 		{'+', {cpl.first+24*7, cpl.second+75}},
 		{'-', {cpl.first+3*75, cpl.second+2*25}},
+		{'(', {cpl.first+75, cpl.second-25}},
+		{')', {cpl.first+2*75, cpl.second-25}},
 		{'C', {cpl.first, cpl.second-25}}
 	};
 	
 	std::vector<wxButton*> numpad;
-	for (char i : std::string("C1234567890=+-")) {
+	for (char i : std::string("C1234567890=+-()")) {
 		numpad.push_back(new wxButton(parrent,
 			// setting each button a costum ID
 			int(i),

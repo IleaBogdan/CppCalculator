@@ -43,7 +43,7 @@ number::number(std::string numb) {
         _numb.push_back(it - '0');
     }
     std::reverse(_numb.begin(), _numb.end());
-    while (_numb.back() == 0)_numb.pop_back();
+    if (!_numb.empty())while (_numb.back() == 0)_numb.pop_back();
     _size = _numb.size();
     if (!_size) {
         _sign = false;

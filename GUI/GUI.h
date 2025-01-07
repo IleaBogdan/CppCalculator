@@ -6,7 +6,7 @@
 
 std::vector<wxButton*> init_numpad(wxWindow* parrent);
 
-#include "../Backend/Backend.h";
+const wxString default_text_box = "(-1)";
 
 const std::unordered_set<wxString> default_text{
 	"",
