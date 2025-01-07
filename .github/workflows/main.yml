@@ -1,13 +1,53 @@
-name: Test Workflow
+name: Build and Release
 
-on: push
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  pull_request:  # Trigger on pull requests
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
     steps:
-      - name: Checkout code
+      - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Run a simple command
-        run: echo "Hello, world!"
+      - name: Set up C++ compiler
+        uses: actions/setup-cpp@v2
+        with:
+          compiler: default
+
+      - name: Install dependencies (Ubuntu)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Install dependencies (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+      - name: Configure and Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+      
+      - name: Archive build artifacts
+        run: |
+          cd build
+          zip -r ../CppCalculator-${{ matrix.os }}.zip *
+        shell: bash
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: CppCalculator-${{ matrix.os }}
+          path: CppCalculator-${{ matrix.os }}.zip
