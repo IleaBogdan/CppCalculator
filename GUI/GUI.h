@@ -6,10 +6,9 @@
 
 std::vector<wxButton*> init_numpad(wxWindow* parrent);
 
-const wxString default_text_box = "(-1)";
+const wxString default_text_box = "Type a calculation: 2 + 2";
 
 const std::unordered_set<wxString> default_text{
-	"",
-	"this a text",
-	"Type a calculation: 2 + 2"
+	"Type a calculation: 2 + 2", // keep as the first text the text you want to display at first on the message box
+	"this a text"
 };
