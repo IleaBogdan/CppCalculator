@@ -19,31 +19,36 @@ MainFrame::MainFrame(const wxString& title):
 		// wxColor gets rgb params
 		wxColor(69, 69, 69)
 	);
-	wxPanel* numpad_panel = new wxPanel(panel, wxID_ANY, wxPoint(3, 100), wxSize(250, 350));
+	wxPanel* numpad_panel = new wxPanel(panel, wxID_ANY, wxPoint(3, 100), wxSize(350, 450));
 	//numpad_panel->SetBackgroundColour(wxColor(0, 0, 0));
-	numpad_panel->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClick, this);
+	numpad_panel->Bind(wxEVT_BUTTON, &MainFrame::OnNUmpadButtonClick, this);
 	std::vector<wxButton*> numpad=init_numpad(numpad_panel);
 	calcText = new wxTextCtrl(panel, wxID_ANY, "Type a calculation: 2 + 2", wxPoint(18, 50), wxSize(160, -1));
 	
-	calcText->Bind(wxEVT_TEXT, &MainFrame::OnTextChange, this);
+	// somithing is fucked when I bind this and stopes the numpad buttons
+	//calcText->Bind(wxEVT_TEXT, &MainFrame::OnTextChange, this);
 }
 
 void MainFrame::OnTextChange(wxCommandEvent& e){
 	wxLogStatus(calcText->GetLabelText());
 	if (calcText->GetLabelText() != "") {
 		if (calcText->GetLabelText().Last() == '=') {
-			std::cout << calcText->GetLabelText() << std::endl;
-			std::cout << backendCalcuation(calcText->GetLabelText());
+			//std::cout << backendCalcuation(calcText->GetLabelText());
+			calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()));
+			return;
 		}
 	}
 }
-void MainFrame::OnButtonClick(wxCommandEvent& e) {
+void MainFrame::OnNUmpadButtonClick(wxCommandEvent& e) {
 	char localid = char(e.GetId());
 	wxLogStatus(wxString{localid});
 	switch (localid) {
 	case '=':
-		std::cout << calcText->GetLabelText() << std::endl;
-		std::cout << backendCalcuation(calcText->GetLabelText());
+		//std::cout << backendCalcuation(calcText->GetLabelText());
+		calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()));
+		break;
+	case 'C':
+		calcText->SetLabelText("");
 		break;
 	default:
 		if (default_text.count(calcText->GetLabelText())) {
@@ -54,5 +59,5 @@ void MainFrame::OnButtonClick(wxCommandEvent& e) {
 		// numbers and signs and the send them to the backend
 		break;
 	}
-	e.Skip();
+	//e.Skip();
 }

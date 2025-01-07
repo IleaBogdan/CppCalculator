@@ -7,7 +7,7 @@ class MainFrame : public wxFrame
 protected:
 
 private:
-	void OnButtonClick(wxCommandEvent& e);
+	void OnNUmpadButtonClick(wxCommandEvent& e);
 	void OnTextChange(wxCommandEvent& e);
 	wxTextCtrl* calcText;
 public:

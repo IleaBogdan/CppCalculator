@@ -26,8 +26,14 @@ nvm it does not work as expected
 int orderNum=0;
 std::string solve(std::string operation) {
     size_t i=0;
+    number minus(1);
+    if (operation[0]=='-'){
+        ++i;
+        minus=-1;
+    }
     ++orderNum;
     std::string newop;
+    // no more ( and )
     while (i<operation.size()){
         if (operation[i]=='('){
             int cnt=1;
@@ -106,5 +112,5 @@ std::string solve(std::string operation) {
         }
         ++i;
     }
-    return rez;
+    return (minus*number(rez)).to_string();
 }
