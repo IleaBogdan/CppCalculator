@@ -4,10 +4,6 @@
 #include <iostream>
 
 
-// macros - think this is how they are called
-#define ALLOW_KEYS() panel->SetFocus()
-#define SOLVE_OPERATION() calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()))
-
 wxString backendCalcuation(const wxString& s) {
 	return wxString(calculate(std::string(s)));
 }
@@ -18,13 +14,13 @@ MainFrame::MainFrame(const wxString& title):
 	wxStatusBar* statusBar=CreateStatusBar();
 	statusBar->SetDoubleBuffered(true);
 
-	panel = new wxPanel(this);
+	panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS);
 	panel->SetFocus();
 	panel->SetBackgroundColour(
 		// wxColor gets rgb params
 		wxColor(69, 69, 69)
 	);
-	panel->Bind(wxEVT_KEY_DOWN, &MainFrame::OnKeyEvent, this);
+	panel->Bind(wxEVT_CHAR_HOOK, &MainFrame::OnKeyEvent, this);
 
 
 	wxPanel* numpad_panel = new wxPanel(panel, wxID_ANY, wxPoint(3, 100), wxSize(350, 450));
@@ -38,21 +34,26 @@ MainFrame::MainFrame(const wxString& title):
 	//calcText->Bind(wxEVT_TEXT, &MainFrame::OnTextChange, this);
 }
 void MainFrame::OnKeyEvent(wxKeyEvent& e) {
-	char key = e.GetUnicodeKey();
-	if (key == WXK_NONE) {
-		int keyCode = e.GetKeyCode();
-		
-	} else {
-		if (key == '=') {
-			SOLVE_OPERATION();
+	char keyChr = e.GetUnicodeKey();
+	int keyCode=e.GetKeyCode();
+	if (keyCode == WXK_TAB) {
+		e.Skip();
+		return;
+	}
+	if (keys.count(keyChr)) {
+		if (default_text.count(calcText->GetLabelText())) {
+			calcText->SetLabelText("");
 		}
-		if (keys.count(key)) {
-			wxLogStatus(wxString{ key });
-			if (default_text.count(calcText->GetLabelText())) {
-				calcText->SetLabelText("");
-			}
-			calcText->SetLabelText(calcText->GetLabelText() + "" + key);
+		calcText->SetLabelText(calcText->GetLabelText() + "" + keyChr);
+		return;
+	}
+	if (keyChr == WXK_NONE) {
+		switch (keyCode) {
+		case WXK_END:
+			//calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()));
+			break;
 		}
+		printf("Key: %d\n", keyCode);
 	}
 }
 void MainFrame::OnTextChange(wxCommandEvent& e){
@@ -60,11 +61,10 @@ void MainFrame::OnTextChange(wxCommandEvent& e){
 	if (calcText->GetLabelText() != "") {
 		if (calcText->GetLabelText().Last() == '=') {
 			//std::cout << backendCalcuation(calcText->GetLabelText());
-			SOLVE_OPERATION();
+			calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()));
 			return;
 		}
 	}
-	ALLOW_KEYS();
 }
 void MainFrame::OnNumpadButtonClick(wxCommandEvent& e) {
 	char localid = char(e.GetId());
@@ -72,7 +72,7 @@ void MainFrame::OnNumpadButtonClick(wxCommandEvent& e) {
 	switch (localid) {
 	case '=':
 		//std::cout << backendCalcuation(calcText->GetLabelText());
-		SOLVE_OPERATION();
+		calcText->SetLabelText(backendCalcuation(calcText->GetLabelText()));
 		break;
 	case 'C':
 		calcText->SetLabelText("");
@@ -87,5 +87,4 @@ void MainFrame::OnNumpadButtonClick(wxCommandEvent& e) {
 		break;
 	}
 	//e.Skip();
-	ALLOW_KEYS();
 }
